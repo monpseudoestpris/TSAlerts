@@ -322,7 +322,7 @@ export function Settings() {
                       checked={z.enabled}
                       onChange={(e) => setGeofenceEnabled(z.id, e.target.checked)}
                     />
-                    <span className="font-semibold">{z.name}</span>
+                    <span className="font-semibold min-w-0 truncate">{z.name}</span>
                   </label>
                   <span className="text-xs text-inkSoft">
                     {rr ? `${rr.icon} ${rr.name}` : z.routineId} · {Math.round(z.radiusM)}m
@@ -403,7 +403,7 @@ export function Settings() {
           {userCustomRoutines(state.customRoutines).map((r) => (
             <li key={r.id} className="card-soft flex items-center gap-3">
               <span className="text-2xl">{r.icon}</span>
-              <span className="flex-1 font-semibold">{r.name || 'Sans titre'}</span>
+              <span className="flex-1 font-semibold min-w-0 truncate">{r.name || 'Sans titre'}</span>
               <button className="iconbtn" onClick={() => navigate('/editor/' + r.id)} aria-label="Modifier">✏️</button>
               <button
                 className="iconbtn"
