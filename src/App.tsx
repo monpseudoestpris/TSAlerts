@@ -19,11 +19,17 @@ export function App() {
   const state = useAppState();
 
   useEffect(() => {
-    const isDark = !!state.flags.darkMode;
-    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    const theme = state.flags.theme || (state.flags.darkMode ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', isDark ? '#181d25' : '#eaeef3');
-  }, [state.flags.darkMode]);
+    const themeColor =
+      theme === 'dark' ? '#181d25'
+        : theme === 'gold' ? '#f2ead7'
+          : theme === 'green-leaf' ? '#e8f2e8'
+            : theme === 'tree' ? '#23302a'
+              : '#eaeef3';
+    if (meta) meta.setAttribute('content', themeColor);
+  }, [state.flags.theme, state.flags.darkMode]);
 
   useEffect(() => {
     if (!state.geo.enabled) return;

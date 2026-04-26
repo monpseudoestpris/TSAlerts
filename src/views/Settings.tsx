@@ -3,12 +3,13 @@ import { useAppState } from '../useAppState';
 import { DEFAULT_ROUTINES, allRoutines, findRoutine, userCustomRoutines } from '../routines';
 import { navigate } from '../router';
 import {
+  type ThemeName,
   type GeofenceTask,
   deleteCustomRoutine,
   setNotificationPermission,
   setSchedule,
   setContinuousFlow,
-  setDarkMode,
+  setTheme,
   setGeoCooldownMin,
   setGeoEnabled,
   setGeofenceEnabled,
@@ -20,8 +21,18 @@ import { tap } from '../vibration';
 import { uid } from '../utils';
 import { GeofenceMap } from '../components/GeofenceMap';
 
+const THEME_OPTIONS: Array<{ value: ThemeName; label: string }> = [
+  { value: 'light', label: 'Clair' },
+  { value: 'dark', label: 'Sombre' },
+  { value: 'gold', label: 'Gold' },
+  { value: 'green-leaf', label: 'Green leaf' },
+  { value: 'tree', label: 'Tree' },
+];
+
 export function Settings() {
   const state = useAppState();
+  const currentTheme: ThemeName = state.flags.theme || (state.flags.darkMode ? 'dark' : 'light');
+  const mapDarkMode = currentTheme === 'dark' || currentTheme === 'tree';
   const [testMsg, setTestMsg] = useState<string | null>(null);
   const [geoMsg, setGeoMsg] = useState<string | null>(null);
   const [editingZoneId, setEditingZoneId] = useState<string | null>(null);
@@ -191,15 +202,19 @@ export function Settings() {
       <section className="card space-y-3">
         <h2 className="text-lg font-semibold">Apparence</h2>
         <p className="text-inkSoft text-sm">
-          Active un fond plus sombre pour réduire l'éblouissement.
+          Choisis un thème: sombre, gold, green leaf ou tree.
         </p>
-        <label className="flex items-center gap-3">
-          <input
-            type="checkbox"
-            checked={state.flags.darkMode}
-            onChange={(e) => { tap(); setDarkMode(e.target.checked); }}
-          />
-          <span>Mode sombre</span>
+        <label className="block">
+          <span className="text-sm text-inkSoft">Thème</span>
+          <select
+            className="field"
+            value={currentTheme}
+            onChange={(e) => { tap(); setTheme(e.target.value as ThemeName); }}
+          >
+            {THEME_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
         </label>
       </section>
 
@@ -237,7 +252,7 @@ export function Settings() {
             draftLat={draftLat}
             draftLng={draftLng}
             draftRadiusM={draftRadiusM}
-            darkMode={state.flags.darkMode}
+            darkMode={mapDarkMode}
             onPick={onMapPick}
             onRadiusChange={(m) => setZone((z) => ({ ...z, radiusM: String(m) }))}
           />

@@ -34,6 +34,54 @@
   --shadow-light: 40 49 63;
 }
 
+[data-theme='gold'] {
+  color-scheme: light;
+  --c-bg: 242 234 215;
+  --c-bgDeep: 230 217 187;
+  --c-ink: 70 56 35;
+  --c-inkSoft: 119 93 56;
+  --c-inkMuted: 149 124 84;
+  --c-accent: 196 153 82;
+  --c-accentStrong: 163 121 54;
+  --c-success: 140 174 118;
+  --c-warning: 210 147 88;
+  --c-danger: 182 116 96;
+  --shadow-dark: 192 174 137;
+  --shadow-light: 255 247 229;
+}
+
+[data-theme='green-leaf'] {
+  color-scheme: light;
+  --c-bg: 232 242 232;
+  --c-bgDeep: 214 230 214;
+  --c-ink: 42 78 54;
+  --c-inkSoft: 77 115 88;
+  --c-inkMuted: 111 145 122;
+  --c-accent: 120 171 137;
+  --c-accentStrong: 82 134 101;
+  --c-success: 120 176 120;
+  --c-warning: 206 166 113;
+  --c-danger: 179 120 120;
+  --shadow-dark: 176 195 177;
+  --shadow-light: 248 255 248;
+}
+
+[data-theme='tree'] {
+  color-scheme: dark;
+  --c-bg: 35 48 42;
+  --c-bgDeep: 28 39 34;
+  --c-ink: 225 235 223;
+  --c-inkSoft: 175 201 173;
+  --c-inkMuted: 121 150 122;
+  --c-accent: 122 162 118;
+  --c-accentStrong: 162 197 140;
+  --c-success: 126 188 133;
+  --c-warning: 205 168 111;
+  --c-danger: 196 133 118;
+  --shadow-dark: 15 20 17;
+  --shadow-light: 56 73 63;
+}
+
 @layer base {
   html, body, #root {
     background-color: rgb(var(--c-bg));

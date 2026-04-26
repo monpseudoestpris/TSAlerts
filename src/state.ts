@@ -4,6 +4,8 @@ import { debounce } from './utils';
 
 const STORAGE_KEY = 'lancre.v1';
 
+export type ThemeName = 'light' | 'dark' | 'gold' | 'green-leaf' | 'tree';
+
 export interface GeofenceTask {
   id: string;
   name: string;
@@ -21,7 +23,12 @@ export interface AppState {
   geofences: GeofenceTask[];
   geo: { enabled: boolean; cooldownMin: number };
   permissions: { notification: NotificationPermission };
-  flags: { iosBannerDismissed: boolean; continuousFlow: boolean; darkMode: boolean };
+  flags: {
+    iosBannerDismissed: boolean;
+    continuousFlow: boolean;
+    darkMode: boolean;
+    theme: ThemeName;
+  };
 }
 
 const initial: AppState = {
@@ -33,7 +40,7 @@ const initial: AppState = {
   permissions: {
     notification: typeof Notification !== 'undefined' ? Notification.permission : 'default',
   },
-  flags: { iosBannerDismissed: false, continuousFlow: false, darkMode: false },
+  flags: { iosBannerDismissed: false, continuousFlow: false, darkMode: false, theme: 'light' },
 };
 
 let state: AppState = load();
@@ -44,17 +51,32 @@ function load(): AppState {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return structuredClone(initial);
     const parsed = JSON.parse(raw);
+    const rawTheme = parsed?.flags?.theme;
+    const migratedTheme = normalizeTheme(rawTheme)
+      || (parsed?.flags?.darkMode ? 'dark' : 'light');
+
     return {
       ...structuredClone(initial),
       ...parsed,
       schedules: { ...initial.schedules, ...(parsed.schedules || {}) },
       geo: { ...initial.geo, ...(parsed.geo || {}) },
-      flags: { ...initial.flags, ...(parsed.flags || {}) },
+      flags: {
+        ...initial.flags,
+        ...(parsed.flags || {}),
+        theme: migratedTheme,
+        darkMode: migratedTheme === 'dark',
+      },
       geofences: Array.isArray(parsed.geofences) ? parsed.geofences : [],
     };
   } catch {
     return structuredClone(initial);
   }
+}
+
+function normalizeTheme(value: unknown): ThemeName | null {
+  if (value === 'light' || value === 'dark' || value === 'gold'
+    || value === 'green-leaf' || value === 'tree') return value;
+  return null;
 }
 
 const persist = debounce(() => {
@@ -182,7 +204,18 @@ export function setContinuousFlow(enabled: boolean): void {
 }
 
 export function setDarkMode(enabled: boolean): void {
-  update((s) => { s.flags.darkMode = !!enabled; });
+  update((s) => {
+    s.flags.darkMode = !!enabled;
+    s.flags.theme = enabled ? 'dark' : 'light';
+  });
+}
+
+export function setTheme(theme: ThemeName): void {
+  update((s) => {
+    const next = normalizeTheme(theme) || 'light';
+    s.flags.theme = next;
+    s.flags.darkMode = next === 'dark';
+  });
 }
 
 export function setGeoEnabled(enabled: boolean): void {
