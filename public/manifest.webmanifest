@@ -1,0 +1,22 @@
+{
+  "name": "L'Ancre — Assistant d'autonomie",
+  "short_name": "L'Ancre",
+  "description": "Cerveau externe pour les routines quotidiennes — adapté aux profils TSA.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#eaeef3",
+  "theme_color": "#eaeef3",
+  "lang": "fr",
+  "dir": "ltr",
+  "categories": ["lifestyle", "productivity", "health"],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

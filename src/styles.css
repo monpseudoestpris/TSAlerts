@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --c-bg: 234 238 243;
+  --c-bgDeep: 221 227 236;
+  --c-ink: 45 58 75;
+  --c-inkSoft: 90 119 148;
+  --c-inkMuted: 142 163 184;
+  --c-accent: 122 162 200;
+  --c-accentStrong: 75 125 168;
+  --c-success: 139 196 160;
+  --c-warning: 226 176 122;
+  --c-danger: 210 138 138;
+  --shadow-dark: 163 177 198;
+  --shadow-light: 255 255 255;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --c-bg: 24 29 37;
+  --c-bgDeep: 19 23 30;
+  --c-ink: 228 236 247;
+  --c-inkSoft: 178 195 218;
+  --c-inkMuted: 113 130 154;
+  --c-accent: 122 162 200;
+  --c-accentStrong: 146 184 220;
+  --c-success: 129 199 161;
+  --c-warning: 227 177 123;
+  --c-danger: 217 140 140;
+  --shadow-dark: 8 11 16;
+  --shadow-light: 40 49 63;
+}
+
+@layer base {
+  html, body, #root {
+    background-color: rgb(var(--c-bg));
+    color: rgb(var(--c-ink));
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+      "Helvetica Neue", Arial, sans-serif;
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right)
+             env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  button { font-family: inherit; }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 text-center
+           font-semibold rounded-lg shadow-neu bg-bg text-ink
+           px-8 py-5 min-h-16 cursor-pointer transition
+           focus-visible:outline focus-visible:outline-2
+           focus-visible:outline-offset-4 focus-visible:outline-accentStrong
+           active:shadow-neu-in active:translate-y-px
+           disabled:text-inkMuted disabled:cursor-not-allowed disabled:shadow-neu-sm;
+  }
+  .btn-primary { @apply text-accentStrong; }
+  .btn-success { @apply text-emerald-700; }
+  .btn-danger  { @apply text-rose-700; }
+  .btn-ghost   { @apply shadow-none bg-transparent; }
+  .btn-block   { @apply w-full; }
+  .btn-lg      { @apply text-xl min-h-20; }
+
+  .card {
+    @apply bg-bg rounded-lg shadow-neu p-8;
+  }
+  .card-soft {
+    @apply bg-bg rounded-md shadow-neu-sm p-5;
+  }
+
+  .field {
+    @apply w-full bg-bg rounded-md shadow-neu-in px-4 py-2 min-h-12 text-ink
+           focus-visible:outline focus-visible:outline-2 focus-visible:outline-accentStrong;
+  }
+
+  .iconbtn {
+    @apply inline-flex items-center justify-center w-14 h-14 rounded-full
+           bg-bg shadow-neu-sm text-inkSoft text-2xl
+           cursor-pointer border-0 transition
+           focus-visible:outline focus-visible:outline-2 focus-visible:outline-accentStrong
+           active:shadow-neu-in;
+  }
+
+  .seg {
+    @apply flex-1 h-2 rounded-full bg-inkMuted/30 transition-colors;
+  }
+  .seg-done    { @apply bg-accent; }
+  .seg-current { @apply bg-accentStrong; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
