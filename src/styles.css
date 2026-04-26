@@ -229,12 +229,77 @@
     }
   }
 
+  @media (max-width: 640px) {
+    .btn {
+      padding: 0.65rem 1rem;
+      min-height: 2.9rem;
+      font-size: 0.96rem;
+    }
+
+    .btn-lg {
+      min-height: 3.2rem;
+      font-size: 1.02rem;
+    }
+
+    .card {
+      padding: 1rem;
+    }
+
+    .card-soft {
+      padding: 0.85rem;
+    }
+
+    .field {
+      min-height: 2.6rem;
+      padding: 0.45rem 0.75rem;
+    }
+
+    .iconbtn {
+      width: 2.7rem;
+      height: 2.7rem;
+      font-size: 1.2rem;
+    }
+
+    .map-canvas {
+      height: 240px;
+    }
+
+    .map-fullscreen {
+      padding: 8px;
+      gap: 8px;
+    }
+
+    .map-fullscreen-canvas .map-canvas {
+      min-height: 300px;
+    }
+  }
+
   .leaflet-container {
     background: rgb(var(--c-bgDeep));
   }
 
   .map-dark .leaflet-tile {
     filter: brightness(0.55) contrast(1.25) saturate(0.7);
+  }
+}
+
+@media (max-width: 640px) {
+  main.max-w-xl {
+    padding-top: 0.9rem !important;
+    padding-bottom: 0.9rem !important;
+    row-gap: 1rem !important;
+  }
+
+  .text-display {
+    font-size: 2.1rem !important;
+  }
+
+  .text-hero {
+    font-size: 3.4rem !important;
+  }
+
+  .text-mega {
+    font-size: 5rem !important;
   }
 }
 

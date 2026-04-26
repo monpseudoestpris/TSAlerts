@@ -56,7 +56,7 @@ export function ProgressRing({ icon, totalSec, elapsedSec, onExpire }: Props) {
 
   return (
     <div
-      className={`relative w-60 h-60 rounded-full ${expired ? 'animate-halo' : ''}`}
+      className={`relative w-44 h-44 sm:w-60 sm:h-60 rounded-full ${expired ? 'animate-halo' : ''}`}
       aria-hidden="true"
     >
       <svg viewBox={`0 0 ${SIZE} ${SIZE}`} width="100%" height="100%">
