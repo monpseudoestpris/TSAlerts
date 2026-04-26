@@ -67,19 +67,35 @@
 }
 
 [data-theme='tree'] {
-  color-scheme: dark;
-  --c-bg: 35 48 42;
-  --c-bgDeep: 28 39 34;
-  --c-ink: 225 235 223;
-  --c-inkSoft: 175 201 173;
-  --c-inkMuted: 121 150 122;
-  --c-accent: 122 162 118;
-  --c-accentStrong: 162 197 140;
-  --c-success: 126 188 133;
-  --c-warning: 205 168 111;
-  --c-danger: 196 133 118;
-  --shadow-dark: 15 20 17;
-  --shadow-light: 56 73 63;
+  color-scheme: light;
+  --c-bg: 239 226 207;
+  --c-bgDeep: 224 204 176;
+  --c-ink: 77 56 35;
+  --c-inkSoft: 120 91 62;
+  --c-inkMuted: 153 123 92;
+  --c-accent: 151 111 72;
+  --c-accentStrong: 122 87 53;
+  --c-success: 123 152 112;
+  --c-warning: 206 151 95;
+  --c-danger: 184 121 103;
+  --shadow-dark: 189 166 137;
+  --shadow-light: 255 243 226;
+}
+
+[data-theme='purple'] {
+  color-scheme: light;
+  --c-bg: 236 228 246;
+  --c-bgDeep: 218 205 236;
+  --c-ink: 63 48 92;
+  --c-inkSoft: 98 82 130;
+  --c-inkMuted: 131 114 163;
+  --c-accent: 154 128 205;
+  --c-accentStrong: 118 94 174;
+  --c-success: 130 173 145;
+  --c-warning: 211 160 114;
+  --c-danger: 191 128 149;
+  --shadow-dark: 182 168 208;
+  --shadow-light: 249 242 255;
 }
 
 @layer base {
@@ -152,11 +168,14 @@
   }
 
   .map-actions {
-    @apply p-3 flex justify-end;
+    @apply p-3 flex items-center justify-end gap-2 flex-wrap;
   }
 
   .map-geo-status {
-    @apply ml-2 text-xs text-inkSoft bg-bgDeep rounded-sm px-3 py-2;
+    @apply text-xs text-inkSoft bg-bgDeep rounded-sm px-3 py-2;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .map-fullscreen {
@@ -172,6 +191,7 @@
 
   .map-fullscreen-header {
     @apply flex items-center justify-between;
+    gap: 10px;
   }
 
   .map-fullscreen-canvas {
@@ -190,6 +210,23 @@
     align-items: center;
     gap: 10px;
     padding: 6px 4px 2px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 480px) {
+    .map-actions {
+      justify-content: stretch;
+    }
+
+    .map-actions .btn,
+    .map-geo-status {
+      width: 100%;
+    }
+
+    .map-fullscreen-header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
   }
 
   .leaflet-container {

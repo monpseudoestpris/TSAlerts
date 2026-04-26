@@ -6,6 +6,7 @@ import { markStepDone, setCurrentStep } from '../state';
 import * as wakelock from '../wakelock';
 import { done as vibDone, pulse, tap } from '../vibration';
 import { ProgressRing } from '../components/ProgressRing';
+import { ScreenAlert } from '../components/ScreenAlert';
 import { formatMmSs } from '../utils';
 
 interface Props { routineId: string; stepId: string }
@@ -15,12 +16,17 @@ export function StepFocus({ routineId, stepId }: Props) {
   const routine = findRoutine(state.customRoutines, routineId);
   const active = state.active;
   const pulsedRef = useRef(false);
+  const alertTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [, force] = useState(0);
+  const [showScreenAlert, setShowScreenAlert] = useState(false);
 
   useEffect(() => { wakelock.acquire(); return () => { wakelock.release(); }; }, []);
   useEffect(() => {
     const id = setInterval(() => force((n) => n + 1), 1000);
     return () => clearInterval(id);
+  }, []);
+  useEffect(() => () => {
+    if (alertTimerRef.current) clearTimeout(alertTimerRef.current);
   }, []);
   // Marquer cette étape comme courante au mount
   useEffect(() => {
@@ -56,6 +62,9 @@ export function StepFocus({ routineId, stepId }: Props) {
     if (pulsedRef.current) return;
     pulsedRef.current = true;
     pulse();
+    setShowScreenAlert(true);
+    if (alertTimerRef.current) clearTimeout(alertTimerRef.current);
+    alertTimerRef.current = setTimeout(() => setShowScreenAlert(false), 9000);
   };
 
   const handleDone = () => {
@@ -102,6 +111,13 @@ export function StepFocus({ routineId, stepId }: Props) {
         </button>
         <button className="btn btn-block" onClick={handleBack}>← Retour à la liste</button>
       </div>
+
+      <ScreenAlert
+        visible={showScreenAlert}
+        title="Temps écoulé"
+        message="Tu peux valider l'étape quand c'est terminé."
+        onClose={() => setShowScreenAlert(false)}
+      />
     </main>
   );
 }

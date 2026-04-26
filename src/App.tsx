@@ -26,7 +26,8 @@ export function App() {
       theme === 'dark' ? '#181d25'
         : theme === 'gold' ? '#f2ead7'
           : theme === 'green-leaf' ? '#e8f2e8'
-            : theme === 'tree' ? '#23302a'
+            : theme === 'tree' ? '#efe2cf'
+              : theme === 'purple' ? '#ece4f6'
               : '#eaeef3';
     if (meta) meta.setAttribute('content', themeColor);
   }, [state.flags.theme, state.flags.darkMode]);

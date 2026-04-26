@@ -6,6 +6,7 @@ import { advanceStep, clearActive } from '../state';
 import * as wakelock from '../wakelock';
 import { done, pulse, tap } from '../vibration';
 import { ProgressRing } from '../components/ProgressRing';
+import { ScreenAlert } from '../components/ScreenAlert';
 import { formatMmSs } from '../utils';
 
 interface Props { routineId: string }
@@ -15,7 +16,9 @@ export function Routine({ routineId }: Props) {
   const routine = findRoutine(state.customRoutines, routineId);
   const active = state.active;
   const pulsedRef = useRef(false);
+  const alertTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [, force] = useState(0);
+  const [showScreenAlert, setShowScreenAlert] = useState(false);
 
   const stepIndex = active?.stepIndex ?? 0;
 
@@ -24,7 +27,17 @@ export function Routine({ routineId }: Props) {
     const id = setInterval(() => force((n) => n + 1), 1000);
     return () => clearInterval(id);
   }, []);
-  useEffect(() => { pulsedRef.current = false; }, [stepIndex]);
+  useEffect(() => {
+    pulsedRef.current = false;
+    setShowScreenAlert(false);
+    if (alertTimerRef.current) {
+      clearTimeout(alertTimerRef.current);
+      alertTimerRef.current = null;
+    }
+  }, [stepIndex]);
+  useEffect(() => () => {
+    if (alertTimerRef.current) clearTimeout(alertTimerRef.current);
+  }, []);
 
   if (!routine || !active || active.routineId !== routine.id) {
     return (
@@ -48,6 +61,9 @@ export function Routine({ routineId }: Props) {
     if (pulsedRef.current) return;
     pulsedRef.current = true;
     pulse();
+    setShowScreenAlert(true);
+    if (alertTimerRef.current) clearTimeout(alertTimerRef.current);
+    alertTimerRef.current = setTimeout(() => setShowScreenAlert(false), 9000);
   };
 
   const handleNext = () => {
@@ -102,6 +118,13 @@ export function Routine({ routineId }: Props) {
           {stepIndex + 1 >= routine.steps.length ? '🎉 Terminer' : '✅ Étape suivante'}
         </button>
       </div>
+
+      <ScreenAlert
+        visible={showScreenAlert}
+        title="Temps écoulé"
+        message="Passe à l'étape suivante quand tu es prêt."
+        onClose={() => setShowScreenAlert(false)}
+      />
     </main>
   );
 }

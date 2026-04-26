@@ -4,7 +4,7 @@ import { debounce } from './utils';
 
 const STORAGE_KEY = 'lancre.v1';
 
-export type ThemeName = 'light' | 'dark' | 'gold' | 'green-leaf' | 'tree';
+export type ThemeName = 'light' | 'dark' | 'gold' | 'green-leaf' | 'tree' | 'purple';
 
 export interface GeofenceTask {
   id: string;
@@ -75,7 +75,7 @@ function load(): AppState {
 
 function normalizeTheme(value: unknown): ThemeName | null {
   if (value === 'light' || value === 'dark' || value === 'gold'
-    || value === 'green-leaf' || value === 'tree') return value;
+    || value === 'green-leaf' || value === 'tree' || value === 'purple') return value;
   return null;
 }
 

@@ -27,12 +27,13 @@ const THEME_OPTIONS: Array<{ value: ThemeName; label: string }> = [
   { value: 'gold', label: 'Gold' },
   { value: 'green-leaf', label: 'Green leaf' },
   { value: 'tree', label: 'Tree' },
+  { value: 'purple', label: 'Purple' },
 ];
 
 export function Settings() {
   const state = useAppState();
   const currentTheme: ThemeName = state.flags.theme || (state.flags.darkMode ? 'dark' : 'light');
-  const mapDarkMode = currentTheme === 'dark' || currentTheme === 'tree';
+  const mapDarkMode = currentTheme === 'dark';
   const [testMsg, setTestMsg] = useState<string | null>(null);
   const [geoMsg, setGeoMsg] = useState<string | null>(null);
   const [editingZoneId, setEditingZoneId] = useState<string | null>(null);
