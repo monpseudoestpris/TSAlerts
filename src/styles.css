@@ -92,6 +92,64 @@
   }
   .seg-done    { @apply bg-accent; }
   .seg-current { @apply bg-accentStrong; }
+
+  .map-shell {
+    @apply rounded-md overflow-hidden shadow-neu-sm bg-bg;
+  }
+
+  .map-canvas {
+    height: 300px;
+    width: 100%;
+  }
+
+  .map-actions {
+    @apply p-3 flex justify-end;
+  }
+
+  .map-geo-status {
+    @apply ml-2 text-xs text-inkSoft bg-bgDeep rounded-sm px-3 py-2;
+  }
+
+  .map-fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    background: rgb(var(--c-bg));
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .map-fullscreen-header {
+    @apply flex items-center justify-between;
+  }
+
+  .map-fullscreen-canvas {
+    @apply rounded-md overflow-hidden shadow-neu-sm;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .map-fullscreen-canvas .map-canvas {
+    height: 100%;
+    min-height: 380px;
+  }
+
+  .map-radius-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 4px 2px;
+  }
+
+  .leaflet-container {
+    background: rgb(var(--c-bgDeep));
+  }
+
+  .map-dark .leaflet-tile {
+    filter: brightness(0.55) contrast(1.25) saturate(0.7);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
